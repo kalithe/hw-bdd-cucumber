@@ -6,7 +6,7 @@ Feature: display list of movies filtered by MPAA rating
 
 Background: movies have been added to database
 
-  Given the following movies exist:
+  Given the following movies exist
   | title                   | rating | release_date |
   | Aladdin                 | G      | 25-Nov-1992  |
   | The Terminator          | R      | 26-Oct-1984  |
@@ -19,20 +19,29 @@ Background: movies have been added to database
   | Raiders of the Lost Ark | PG     | 12-Jun-1981  |
   | Chicken Run             | G      | 21-Jun-2000  |
 
-  And  I am on the RottenPotatoes home page
+  And I am on the RottenPotatoes home page
 
 Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step(s) to check the 'PG' and 'R' checkboxes
-  Given I checked the following ratings: PG, R
-  And the following ratings are not checked: G, PG-13, NR
+  When I check the following ratings: PG,R
   # enter step(s) to uncheck all other checkboxes
-  Then Uncheck the following ratings: G, PG-13, NR, NC-17
+  And I uncheck the following ratings: G,PG-13,NC-17
   # enter step to "submit" the search form on the homepage
-  When I push submit
+  And I press "Refresh"
   # enter step(s) to ensure that PG and R movies are visible
-  Then I should see the following ratings: PG, R
+  Then I should not see "Aladdin"
+  And I should see "The Terminator"
+  And I should see "When Harry Met Sally"
+  And I should not see "The Help"
+  And I should not see "Chocolat"
+  And I should see "Amelie"
+  And I should not see "2001: A Space Odyssey"
+  And I should see "The Incredibles"
+  And I should see "Raiders of the Lost Ark"
+  And I should not see "Chicken Run"
   # enter step(s) to ensure that other movies are not visible
-  And the following ratings should be unchecked: G, PG-13, NR, NC-17
-
+  
 Scenario: all ratings selected
-  # see assignment
+  When I check the following ratings: G,PG,PG-13,R,NC-17
+  And I press "Refresh"
+  Then I should see all the movies

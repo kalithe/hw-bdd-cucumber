@@ -20,15 +20,14 @@ Background: movies have been added to database
   | Chicken Run             | G      | 21-Jun-2000  |
 
   And I am on the RottenPotatoes home page
-
+  
 Scenario: sort movies alphabetically
   When I follow "Movie Title"
   # your steps here
-  Then sort movies alphabetically
-  And I should see movies listed alphabetically
+  Then I should see "Aladdin" before "Amelie"
+
 
 Scenario: sort movies in increasing order of release date
   When I follow "Release Date"
   # your steps here
-  Then sort movies by release date
-  And I should see movies listed by release date
+ Then I should see "Raiders of the Lost Ark" before "The Terminator"
